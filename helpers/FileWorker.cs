@@ -43,13 +43,45 @@ namespace FileWorkerNameSpace
                 return;
             }
             List<string> booksIds = getIndexesOfAllBooksOfTheAuthor(authorIdAsString);
-            showSelectedBooks(booksIds);
+            if (booksIds.Count == 0)
+            {
+                Console.WriteLine("You index is invalid");
+                return;
+            }
+            showSelectedFileLines(booksIds, getPathToFile(Constants.books));
 
         }
-        public void ShowBookAuthor(string bookIdAsString) { }
+        public void ShowBookAuthors(string bookIdAsString)
+        {
+            if (!File.Exists(getPathToFile(Constants.books)))
+            {
+                Console.WriteLine("No books yet");
+                return;
+            }
+            List<string> authorsIds = getIndexesOfAllAuthorsOfABook(bookIdAsString);
+            if (authorsIds.Count == 0)
+            {
+                Console.WriteLine("You index is invalid");
+                return;
+            }
+            showSelectedFileLines(authorsIds, getPathToFile(Constants.authors));
+        }
 
         public void DeleteBook(string bookIdAsString)
         {
+
+            if (!isFilesReady())
+            {
+                Console.WriteLine("Files is unready");
+                return;
+            }
+
+            deleteBookFromBooks(bookIdAsString);
+            List<string> deletedBooksAuthorsIds = deleteAllBookRelationsAndGetDeletedAuthorsIds(bookIdAsString);
+            foreach (var authorId in deletedBooksAuthorsIds)
+            {
+                deleteTheAuthorIfHeDidNotWriteTheBook(authorId);
+            }
 
         }
 
@@ -185,7 +217,57 @@ namespace FileWorkerNameSpace
             return booksIdsAsString;
         }
 
-        private void showSelectedBooks(List<string> booksIds)
+        private List<string> getIndexesOfAllAuthorsOfABook(string bookIdAsString)
+        {
+            List<string> authorsIdsAsString = new List<string>();
+            using (StreamReader sr = new StreamReader(getPathToFile(Constants.authorsAndBooks)))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    string[] LineInfo = line.Split(' ');
+                    if (LineInfo[1] == bookIdAsString)
+                    {
+                        authorsIdsAsString.Add(LineInfo[2]);
+                    }
+                }
+            }
+            return authorsIdsAsString;
+        }
+
+        private void showSelectedFileLines(List<string> ids, string filePath)
+        {
+            using (StreamReader sr = new StreamReader(filePath))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    string[] LineInfo = line.Split(' ');
+                    foreach (string id in ids)
+                    {
+                        if (id == LineInfo[0]) Console.WriteLine(line);
+                    }
+                }
+
+            }
+
+        }
+        private bool isFilesReady()
+        {
+            bool isOk = true;
+            foreach (var fileName in storageFiles)
+            {
+                if (!File.Exists(getPathToFile(fileName)))
+                {
+
+                    Console.WriteLine($"File not exist {fileName}");
+                    isOk = false;
+                    break;
+                }
+            }
+            return isOk;
+        }
+        private void deleteBookFromBooks(string bookIdAsString)
         {
             using (StreamReader sr = new StreamReader(getPathToFile(Constants.books)))
             {
@@ -193,13 +275,71 @@ namespace FileWorkerNameSpace
                 while ((line = sr.ReadLine()) != null)
                 {
                     string[] LineInfo = line.Split(' ');
-                    foreach (string bookId in booksIds)
+                    if (LineInfo[0] == bookIdAsString)
                     {
-                        if (bookId == LineInfo[0]) Console.WriteLine(line);
+                        line.Remove(0);
                     }
                 }
 
             }
+        }
+
+        private List<string> deleteAllBookRelationsAndGetDeletedAuthorsIds(string bookIdAsString)
+        {
+            List<string> authorsIds = new List<string>();
+            using (StreamReader sr = new StreamReader(getPathToFile(Constants.authorsAndBooks)))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    string[] LineInfo = line.Split(' ');
+                    if (LineInfo[1] == bookIdAsString)
+                    {
+                        authorsIds.Add(LineInfo[2]);
+                        line.Remove(0);
+                    }
+                }
+
+            }
+            return authorsIds;
+        }
+
+        private void deleteTheAuthorIfHeDidNotWriteTheBook(string authorIdAsString)
+        {
+            using (StreamReader sr = new StreamReader(getPathToFile(Constants.authorsAndBooks)))
+            {
+                bool authorExist = false;
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    string[] LineInfo = line.Split(' ');
+                    if (LineInfo[2] == authorIdAsString)
+                    {
+                        authorExist = true;
+                        break;
+                    }
+                }
+                if (!authorExist) deleteAuthorFromAuthors(authorIdAsString);
+            }
+        }
+
+        private void deleteAuthorFromAuthors(string authorIdAsString)
+        {
+
+            using (StreamReader sr = new StreamReader(getPathToFile(Constants.authors)))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    string[] LineInfo = line.Split(' ');
+                    if (LineInfo[0] == authorIdAsString)
+                    {
+                        line.Remove(0);
+                    }
+                }
+
+            }
+
         }
     }
 }

@@ -36,7 +36,8 @@ namespace playground
                 }
                 if (currentUserInput == "5")
                 {
-                    fileWorker.ShowBookAuthor(Console.ReadLine());
+                    fileWorker.ShowBooks();
+                    fileWorker.ShowBookAuthors(Console.ReadLine());
                 }
                 if (currentUserInput == "6")
                 {
@@ -52,8 +53,8 @@ namespace playground
             Console.WriteLine("1.Add book");
             Console.WriteLine("2.Show all Authors");
             Console.WriteLine("3.Show all Books");
-            Console.WriteLine("4.Show all authors books");
-            Console.WriteLine("5.Show all authors books");
+            Console.WriteLine("4.Show selected author books");
+            Console.WriteLine("5.Show selected book authors");
             Console.WriteLine("6.Delete book");
 
         }
