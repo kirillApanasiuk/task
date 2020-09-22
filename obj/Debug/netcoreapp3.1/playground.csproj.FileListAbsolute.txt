@@ -1,0 +1,13 @@
+/home/user/SelfDevelopment/c#/playground/bin/Debug/netcoreapp3.1/playground
+/home/user/SelfDevelopment/c#/playground/bin/Debug/netcoreapp3.1/playground.deps.json
+/home/user/SelfDevelopment/c#/playground/bin/Debug/netcoreapp3.1/playground.runtimeconfig.json
+/home/user/SelfDevelopment/c#/playground/bin/Debug/netcoreapp3.1/playground.runtimeconfig.dev.json
+/home/user/SelfDevelopment/c#/playground/bin/Debug/netcoreapp3.1/playground.dll
+/home/user/SelfDevelopment/c#/playground/bin/Debug/netcoreapp3.1/playground.pdb
+/home/user/SelfDevelopment/c#/playground/obj/Debug/netcoreapp3.1/playground.csprojAssemblyReference.cache
+/home/user/SelfDevelopment/c#/playground/obj/Debug/netcoreapp3.1/playground.AssemblyInfoInputs.cache
+/home/user/SelfDevelopment/c#/playground/obj/Debug/netcoreapp3.1/playground.AssemblyInfo.cs
+/home/user/SelfDevelopment/c#/playground/obj/Debug/netcoreapp3.1/playground.csproj.CoreCompileInputs.cache
+/home/user/SelfDevelopment/c#/playground/obj/Debug/netcoreapp3.1/playground.dll
+/home/user/SelfDevelopment/c#/playground/obj/Debug/netcoreapp3.1/playground.pdb
+/home/user/SelfDevelopment/c#/playground/obj/Debug/netcoreapp3.1/playground.genruntimeconfig.cache
