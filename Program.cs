@@ -21,7 +21,31 @@ namespace playground
                 {
                     fileWorker.AddBook();
                 }
+                if (currentUserInput == "2")
+                {
+                    fileWorker.ShowAuthors();
+                }
+                if (currentUserInput == "3")
+                {
+                    fileWorker.ShowBooks();
+                }
+                if (currentUserInput == "4")
+                {
+                    fileWorker.ShowAuthors();
+                    fileWorker.ShowAuthorBooks(Console.ReadLine());
+                }
+                if (currentUserInput == "5")
+                {
+                    fileWorker.ShowBookAuthor(Console.ReadLine());
+                }
+                if (currentUserInput == "6")
+                {
+                    fileWorker.ShowBooks();
+                    Console.WriteLine("Enter the index of book which you wish to delete");
+                    fileWorker.DeleteBook(Console.ReadLine());
+                }
             }
+
         }
         static void ShowWelcomeMenu()
         {
