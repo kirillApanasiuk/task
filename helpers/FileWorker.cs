@@ -270,24 +270,29 @@ namespace FileWorkerNameSpace
         private void deleteBookFromBooks(string bookIdAsString)
         {
             using (StreamReader sr = new StreamReader(getPathToFile(Constants.books)))
+            using (StreamWriter sw = new StreamWriter(getPathToFile(Constants.temp)))
             {
                 string line;
                 while ((line = sr.ReadLine()) != null)
                 {
                     string[] LineInfo = line.Split(' ');
-                    if (LineInfo[0] == bookIdAsString)
+                    if (LineInfo[0] != bookIdAsString)
                     {
-                        line.Remove(0);
+                        sw.WriteLine(line);
                     }
                 }
 
             }
+            File.Delete(getPathToFile(Constants.books));
+            File.Move(getPathToFile(Constants.temp), getPathToFile(Constants.books));
+            File.Delete(getPathToFile(Constants.temp));
         }
 
         private List<string> deleteAllBookRelationsAndGetDeletedAuthorsIds(string bookIdAsString)
         {
             List<string> authorsIds = new List<string>();
             using (StreamReader sr = new StreamReader(getPathToFile(Constants.authorsAndBooks)))
+            using (StreamWriter sw = new StreamWriter(getPathToFile(Constants.temp)))
             {
                 string line;
                 while ((line = sr.ReadLine()) != null)
@@ -296,11 +301,18 @@ namespace FileWorkerNameSpace
                     if (LineInfo[1] == bookIdAsString)
                     {
                         authorsIds.Add(LineInfo[2]);
-                        line.Remove(0);
+
+                    }
+                    else
+                    {
+                        sw.WriteLine(line);
                     }
                 }
 
             }
+            File.Delete(getPathToFile(Constants.authorsAndBooks));
+            File.Move(getPathToFile(Constants.temp), getPathToFile(Constants.authorsAndBooks));
+            File.Delete(getPathToFile(Constants.temp));
             return authorsIds;
         }
 
@@ -327,18 +339,22 @@ namespace FileWorkerNameSpace
         {
 
             using (StreamReader sr = new StreamReader(getPathToFile(Constants.authors)))
+            using (StreamWriter sw = new StreamWriter(getPathToFile(Constants.temp)))
             {
                 string line;
                 while ((line = sr.ReadLine()) != null)
                 {
                     string[] LineInfo = line.Split(' ');
-                    if (LineInfo[0] == authorIdAsString)
+                    if (LineInfo[0] != authorIdAsString)
                     {
-                        line.Remove(0);
+                        sw.WriteLine(line);
                     }
                 }
 
             }
+            File.Delete(getPathToFile(Constants.authors));
+            File.Move(getPathToFile(Constants.temp), getPathToFile(Constants.authors));
+            File.Delete(getPathToFile(Constants.temp));
 
         }
     }
@@ -350,5 +366,6 @@ static class Constants
     public static string books = "books.txt";
     public static string authors = "authors.txt";
     public static string authorsAndBooks = "authorsAndBooks.txt";
+    public static string temp = "temp.txt";
 }
 
