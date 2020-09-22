@@ -1,17 +1,14 @@
 ﻿using System;
-using Methods;
-using FileWorkerNameSpace;
-
 namespace playground
 {
     class Program
     {
         static void Main(string[] args)
         {
-            MyMethods methods = new MyMethods();
-            FileWorker fileWorker = new FileWorker();
-            Console.WriteLine("Welcome to Book tracker");
-            Console.WriteLine("Enter the number of the selected action");
+
+            BooksRepository bookRepository = new BooksRepository();
+            Console.WriteLine(Text.appWelcomeMessage);
+            Console.WriteLine(Text.invitationToTheMainAction);
             string currentUserInput;
             while (true)
             {
@@ -19,43 +16,50 @@ namespace playground
                 currentUserInput = Console.ReadLine();
                 if (currentUserInput == "1")
                 {
-                    fileWorker.AddBook();
+                    Console.WriteLine(Text.requestForTheBookInput);
+                    string bookName = Console.ReadLine();
+                    Console.WriteLine(Text.requestForTheYearOfBookPublishInput);
+                    string year = Console.ReadLine();
+                    Console.WriteLine(Text.requestForTheAuthorsInput);
+                    string authorsString = Console.ReadLine();
+                    string[] authors = authorsString.Split(',');
+                    bookRepository.AddBook(bookName, year, authors);
                 }
                 if (currentUserInput == "2")
                 {
-                    fileWorker.ShowAuthors();
+                    bookRepository.ShowAuthors();
                 }
                 if (currentUserInput == "3")
                 {
-                    fileWorker.ShowBooks();
+                    bookRepository.ShowBooks();
                 }
                 if (currentUserInput == "4")
                 {
-                    fileWorker.ShowAuthors();
-                    fileWorker.ShowAuthorBooks(Console.ReadLine());
+                    bookRepository.ShowAuthors();
+                    bookRepository.ShowAuthorsBooks(Console.ReadLine());
                 }
                 if (currentUserInput == "5")
                 {
-                    fileWorker.ShowBooks();
-                    fileWorker.ShowBookAuthors(Console.ReadLine());
+                    bookRepository.ShowBooks();
+                    bookRepository.ShowBooksAuthors(Console.ReadLine());
                 }
                 if (currentUserInput == "6")
                 {
-                    fileWorker.ShowBooks();
-                    Console.WriteLine("Enter the index of book which you wish to delete");
-                    fileWorker.DeleteBook(Console.ReadLine());
+                    bookRepository.ShowBooks();
+                    Console.WriteLine(Text.requestFortheBookIndexForDelete);
+                    bookRepository.DeleteBook(Console.ReadLine());
                 }
             }
 
         }
         static void ShowWelcomeMenu()
         {
-            Console.WriteLine("1.Add book");
-            Console.WriteLine("2.Show all Authors");
-            Console.WriteLine("3.Show all Books");
-            Console.WriteLine("4.Show selected author books");
-            Console.WriteLine("5.Show selected book authors");
-            Console.WriteLine("6.Delete book");
+            Console.WriteLine(Text.mainMenuAddBook);
+            Console.WriteLine(Text.mainMenuShowAllAuthors);
+            Console.WriteLine(Text.mainMenuShowAllBooks);
+            Console.WriteLine(Text.mainMenuShowSelectedAuthorBooks);
+            Console.WriteLine(Text.mainMenuShowSelectedBookAuthors);
+            Console.WriteLine(Text.mainMenuDeleteBook);
 
         }
     }
