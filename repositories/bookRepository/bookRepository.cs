@@ -1,4 +1,5 @@
 using System;
+using playground.repositories.bookRepository.db;
 class BooksRepository
 {
     IBookRepository bookRepository;
@@ -13,11 +14,11 @@ class BooksRepository
         }
         if (storageMethod == "db")
         {
-            //DB implementation
+            bookRepository = new DataBaseWorker();
         }
-        else
+        if (storageMethod != "file" && storageMethod != "db")
         {
-            Console.WriteLine(Text.errorStorageMethodSelect);
+            throw new System.ArgumentException(Text.errorStorageMethodSelect);
         }
     }
     public void AddBook(
@@ -88,6 +89,16 @@ class BooksRepository
 }
 
 interface IBookRepository
+{
+    void AddBook(string book, string yearOfPublish, string[] authors);
+    void ShowAuthors();
+    void ShowBooks();
+    void ShowAuthorsBooks(string authorId);
+    void ShowBooksAuthors(string bookId);
+    void DeleteBook(string bookId);
+}
+
+interface BookRepository
 {
     void AddBook(string book, string yearOfPublish, string[] authors);
     void ShowAuthors();

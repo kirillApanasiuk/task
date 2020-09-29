@@ -21,4 +21,6 @@ static class Text
     public static string invalidIndexBookInput = "Enter string that can be parsed to number";
     public static string validationAuthor = "Author's last name should be less than 20 symbols";
     public static string validationBook = "Book title should be less than 30 symbols";
+    public static string successAddBook = "Book was successfully added!";
+    public static string successDeleteBook = "Book was successfully deleted!";
 }
